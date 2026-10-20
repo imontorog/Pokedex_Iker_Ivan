@@ -95,7 +95,17 @@ export function reproduirCrit(soundUrl: string): void {
  *  - Afegir el <li> al contenidor amb appendChild.
  */
 // TODO: Implementa la lògica de l'exercici 1 seguint els requisits
-
+export function  renderitzarLlistaNoms(llista: Models.BasePokemon[]){
+    const vaciadordeContenido = document.getElementById("pokemon-list") as HTMLUListElement
+    const creadorPokemon = document.createElement("li") as HTMLLIElement
+    vaciadordeContenido.remove();
+    llista.forEach((pokemon) => {
+        const li = document.createElement("li");
+        li.dataset.id = String(pokemon.id);
+        li.innerHTML = "#"+pokemon.id+" - "+ pokemon.name
+        creadorPokemon.appendChild(li);
+    });
+}
 
 /**
  * EXERCICI 3
