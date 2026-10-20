@@ -36,6 +36,40 @@ export interface IPokeApiDetail {
     cries?: { latest?: string; legacy?: string };
 }
 
+export class BasePokemon {
+    private _id: number;
+    private _name: string;
+    private _url: string;
+
+    constructor(item: IPokeApiListItem) {
+        this._name = item.name;
+        this._url = item.url;
+        const segments: string[] = item.url.split('/').filter(Boolean);
+        this._id = parseInt(segments[segments.length - 1], 10);
+    }
+
+    get id(): number {
+        return this._id;
+    }
+
+    get name(): string {
+        return this._name;
+    }
+
+    get url(): string {
+        return this._url;
+    }
+
+    get formattedId(): string {
+        return `#${this._id.toString().padStart(3, '0')}`;
+    }
+
+    get displayName(): string {
+        if (!this._name) return '';
+        return this._name.charAt(0).toUpperCase() + this._name.slice(1);
+    }
+}
+
 
 // ==========================================================
 // 2. ALIAS DE TIPUS
