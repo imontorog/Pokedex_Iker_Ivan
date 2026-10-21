@@ -48,23 +48,23 @@ export class BasePokemon {
         this._id = parseInt(segments[segments.length - 1], 10);
     }
 
-    get id(): number {
+    get id() {
         return this._id;
     }
 
-    get name(): string {
+    get name() {
         return this._name;
     }
 
-    get url(): string {
+    get url() {
         return this._url;
     }
 
-    get formattedId(): string {
+    get formattedId() {
         return `#${this._id.toString().padStart(3, '0')}`;
     }
 
-    get displayName(): string {
+    get displayName() {
         if (!this._name) return '';
         return this._name.charAt(0).toUpperCase() + this._name.slice(1);
     }
