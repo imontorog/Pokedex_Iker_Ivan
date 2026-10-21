@@ -62,10 +62,10 @@ function filtrarPokemon() {
     const esNumeric = query !== '' && !isNaN(Number(query));
 
 
-    for(let i = 0; i <= items.length; i++){
-        const li = items[i];
-        const id = li.dataset.id || '';
-        const name = (li.dataset.name || '').toLowerCase();
+    for(let i = 0; i <= items.length; i++) {
+        const li: HTMLLIElement = items[i];
+        const id: string = li.dataset.id || '';
+        const name: string = (li.dataset.name || '').toLowerCase();
 
         if (query === '') {
             li.classList.remove('hidden');
