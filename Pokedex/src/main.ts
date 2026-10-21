@@ -1,14 +1,11 @@
-import * as Utils from './utils.js' ;
 import * as Models from './models.js';
-import {IPokeApiListItem} from "./models.js";
-import {renderitzarLlistaNoms} from "./utils.js";
+import * as Utils from './utils.js';
 
 // ==========================================================
 // EXERCICI 1: Llistar els 151 Pokémon
 // ==========================================================
-// TODO: Implementa la lògica de l'exercici 1 seguint els requisits
 
-const mapaPokkemon = new Map<number, Models.BasePokemon>();
+const mapaPokemon = new Map<number, Models.BasePokemon>();
 
 async function carregarllistaPokemon() {
     try{
@@ -21,13 +18,14 @@ async function carregarllistaPokemon() {
 
         const dades = (await resposta.json()) as Models.IPokeApiListResponse;
 
-        mapaPokkemon.clear();
+        mapaPokemon.clear();
+
         dades.results.forEach((item) => {
             const pokemon = new Models.BasePokemon(item);
-            mapaPokkemon.set(pokemon.id, pokemon);
+            mapaPokemon.set(pokemon.id, pokemon);
         });
 
-        const llistaPokemon = Array.from(mapaPokkemon.values());
+        const llistaPokemon = Array.from(mapaPokemon.values());
         Utils.renderitzarLlistaNoms(llistaPokemon);
         Utils.amagarEstat();
     }catch (error: unknown) {
