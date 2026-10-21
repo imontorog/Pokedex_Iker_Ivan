@@ -4,6 +4,34 @@
 //    IMPORTANT: només existeixen en temps de compilació. TypeScript NO
 //    valida en execució que l'API realment retorni aquesta estructura.
 // ==========================================================
+export class BasePokemon {
+    _id;
+    _name;
+    _url;
+    constructor(item) {
+        this._name = item.name;
+        this._url = item.url;
+        const segments = item.url.split('/').filter(Boolean);
+        this._id = parseInt(segments[segments.length - 1], 10);
+    }
+    get id() {
+        return this._id;
+    }
+    get name() {
+        return this._name;
+    }
+    get url() {
+        return this._url;
+    }
+    get formattedId() {
+        return `#${this._id.toString().padStart(3, '0')}`;
+    }
+    get displayName() {
+        if (!this._name)
+            return '';
+        return this._name.charAt(0).toUpperCase() + this._name.slice(1);
+    }
+}
 // ==========================================================
 // 3. PokemonType (JA IMPLEMENTADA, usa-la com a MODEL)
 //    Fixa't: `readonly` per a dades que no canvien i un getter
@@ -108,4 +136,3 @@ export const POKEMON_TYPES = {
  *   get types: retorna un array d'objectes PokemonType
  *   get stats: retorna un array de type Stat
  */
-//# sourceMappingURL=models.js.map

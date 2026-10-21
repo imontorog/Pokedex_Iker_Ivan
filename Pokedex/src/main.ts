@@ -8,6 +8,7 @@ import * as Utils from './utils.js';
 const mapaPokemon = new Map<number, Models.BasePokemon>();
 
 async function carregarllistaPokemon() {
+    Utils.netejarCercador();
     try{
         Utils.mostrarEstat('Carregar la llista Pokémon...', "loading");
 
@@ -49,7 +50,38 @@ document.addEventListener('DOMContentLoaded', (): void => {
 // ==========================================================
 // EXERCICI 2: Cercador en temps real
 // ==========================================================
-// TODO: Implementa la lògica de l'exercici 2 seguint els requisits
+
+function filtrarPokemon(): void {
+    const searchInput = document.getElementById('search-input') as HTMLInputElement | null;
+    if (!searchInput) return;
+
+    const query: string = searchInput.value.trim().toLowerCase();
+    const totsElsPokemon: Models.BasePokemon[] = Array.from(mapaPokemon.values());
+
+    if (query === '') {
+        Utils.renderitzarLlistaNoms(totsElsPokemon);
+        return;
+    }
+
+    const esNumeric: boolean = !isNaN(Number(query));
+
+    const filtrats: Models.BasePokemon[] = totsElsPokemon.filter((pokemon: Models.BasePokemon): boolean => {
+        if (esNumeric) {
+            return pokemon.id === Number(query);
+        } else {
+            return pokemon.name.toLowerCase().includes(query);
+        }
+    });
+
+    Utils.renderitzarLlistaNoms(filtrats);
+}
+
+const searchInput = document.getElementById('search-input') as HTMLInputElement | null;
+if (searchInput) {
+    searchInput.addEventListener('input', (): void => {
+        filtrarPokemon();
+    });
+}
 
 
 

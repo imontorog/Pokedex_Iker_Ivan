@@ -1,8 +1,43 @@
+import * as Models from './models.js';
+import * as Utils from './utils.js';
 // ==========================================================
 // EXERCICI 1: Llistar els 151 Pokémon
 // ==========================================================
-// TODO: Implementa la lògica de l'exercici 1 seguint els requisits
-export {};
+const mapaPokemon = new Map();
+async function carregarllistaPokemon() {
+    try {
+        Utils.mostrarEstat('Carregar la llista Pokémon...', "loading");
+        const resposta = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
+        if (!resposta.ok) {
+            throw new Error(`Error HTTP: ${resposta.status}`);
+        }
+        const dades = (await resposta.json());
+        mapaPokemon.clear();
+        dades.results.forEach((item) => {
+            const pokemon = new Models.BasePokemon(item);
+            mapaPokemon.set(pokemon.id, pokemon);
+        });
+        const llistaPokemon = Array.from(mapaPokemon.values());
+        Utils.renderitzarLlistaNoms(llistaPokemon);
+        Utils.amagarEstat();
+    }
+    catch (error) {
+        if (error instanceof Error) {
+            Utils.mostrarEstat(`Error en carregar els Pokémon: ${error.message}`, 'error');
+        }
+        else {
+            Utils.mostrarEstat('Error desconegut en carregar els Pokémon.', 'error');
+        }
+    }
+}
+document.addEventListener('DOMContentLoaded', () => {
+    const btnShowAll = document.getElementById('btn-show-all');
+    if (btnShowAll) {
+        btnShowAll.addEventListener('click', () => {
+            carregarllistaPokemon();
+        });
+    }
+});
 // ==========================================================
 // EXERCICI 2: Cercador en temps real
 // ==========================================================
@@ -19,4 +54,3 @@ export {};
 // EXERCICI 5: Filtrar la llista per tipus
 // ==========================================================
 // TODO: Implementa la lògica de l'exercici 5 seguint els requisits
-//# sourceMappingURL=main.js.map

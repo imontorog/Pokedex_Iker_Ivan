@@ -82,6 +82,20 @@ export function reproduirCrit(soundUrl) {
  *  - Afegir el <li> al contenidor amb appendChild.
  */
 // TODO: Implementa la lògica de l'exercici 1 seguint els requisits
+export function renderitzarLlistaNoms(llista) {
+    const container = document.getElementById('pokemon-list');
+    if (!container)
+        return;
+    container.innerHTML = '';
+    llista.forEach((pokemon) => {
+        const li = document.createElement('li');
+        li.dataset.id = pokemon.id.toString();
+        li.dataset.name = pokemon.name;
+        li.dataset.url = pokemon.url;
+        li.textContent = `${pokemon.formattedId} - ${pokemon.displayName}`;
+        container.appendChild(li);
+    });
+}
 /**
  * EXERCICI 3
  * Renderitza la targeta de detall dins de <div id="pokemon-detail">.
@@ -120,4 +134,3 @@ export function reproduirCrit(soundUrl) {
  *  - Recorda afegir el botó correctament al contenidor
  */
 // TODO: Implementa la lògica de l'exercici 4 seguint els requisits
-//# sourceMappingURL=utils.js.map
