@@ -5,6 +5,9 @@
 //    valida en execució que l'API realment retorni aquesta estructura.
 // ==========================================================
 export class BasePokemon {
+    _id;
+    _name;
+    _url;
     constructor(item) {
         this._name = item.name;
         this._url = item.url;
@@ -38,6 +41,10 @@ export class BasePokemon {
  * Representa un tipus de Pokémon (Foc, Aigua, etc.)
  */
 export class PokemonType {
+    id;
+    name;
+    icon;
+    color;
     // 2. Rebre els valors i fer l'assignació manual
     constructor(id, name, icon, color) {
         this.id = id;
@@ -129,3 +136,4 @@ export const POKEMON_TYPES = {
  *   get types: retorna un array d'objectes PokemonType
  *   get stats: retorna un array de type Stat
  */
+//# sourceMappingURL=models.js.map

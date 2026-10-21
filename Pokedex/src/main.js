@@ -7,17 +7,18 @@ const mapaPokemon = new Map();
 async function carregarllistaPokemon() {
     Utils.netejarCercador();
     try {
-        Utils.mostrarEstat('Carregar la llista Pokémon...', "loading");
+        Utils.mostrarEstat('Carregant la llista de Pokémon...', 'loading');
         const resposta = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
         if (!resposta.ok) {
             throw new Error(`Error HTTP: ${resposta.status}`);
         }
         const dades = (await resposta.json());
         mapaPokemon.clear();
-        dades.results.forEach((item) => {
+        for (let i = 0; i < dades.results.length; i++) {
+            const item = dades.results[i];
             const pokemon = new Models.BasePokemon(item);
             mapaPokemon.set(pokemon.id, pokemon);
-        });
+        }
         const llistaPokemon = Array.from(mapaPokemon.values());
         Utils.renderitzarLlistaNoms(llistaPokemon);
         Utils.amagarEstat();
@@ -91,3 +92,4 @@ if (searchInput) {
 // EXERCICI 5: Filtrar la llista per tipus
 // ==========================================================
 // TODO: Implementa la lògica de l'exercici 5 seguint els requisits
+//# sourceMappingURL=main.js.map

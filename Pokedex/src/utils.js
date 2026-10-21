@@ -87,14 +87,15 @@ export function renderitzarLlistaNoms(llista) {
     if (!container)
         return;
     container.innerHTML = '';
-    llista.forEach((pokemon) => {
+    for (let i = 0; i < llista.length; i++) {
+        const pokemon = llista[i];
         const li = document.createElement('li');
         li.dataset.id = pokemon.id.toString();
         li.dataset.name = pokemon.name;
         li.dataset.url = pokemon.url;
         li.textContent = `${pokemon.formattedId} - ${pokemon.displayName}`;
         container.appendChild(li);
-    });
+    }
 }
 /**
  * EXERCICI 3
@@ -134,3 +135,4 @@ export function renderitzarLlistaNoms(llista) {
  *  - Recorda afegir el botó correctament al contenidor
  */
 // TODO: Implementa la lògica de l'exercici 4 seguint els requisits
+//# sourceMappingURL=utils.js.map

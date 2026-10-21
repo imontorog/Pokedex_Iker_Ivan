@@ -7,13 +7,13 @@ import * as Utils from './utils.js';
 
 const mapaPokemon = new Map<number, Models.BasePokemon>();
 
-async function carregarllistaPokemon() {
+async function carregarllistaPokemon(): Promise<void> {
     Utils.netejarCercador();
-    try{
-        Utils.mostrarEstat('Carregar la llista Pokémon...', "loading");
+    try {
+        Utils.mostrarEstat('Carregant la llista de Pokémon...', 'loading');
 
         const resposta = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
-        if(!resposta.ok){
+        if (!resposta.ok) {
             throw new Error(`Error HTTP: ${resposta.status}`);
         }
 
@@ -21,15 +21,16 @@ async function carregarllistaPokemon() {
 
         mapaPokemon.clear();
 
-        dades.results.forEach((item) => {
+        for (let i = 0; i < dades.results.length; i++) {
+            const item = dades.results[i];
             const pokemon = new Models.BasePokemon(item);
             mapaPokemon.set(pokemon.id, pokemon);
-        });
+        }
 
         const llistaPokemon = Array.from(mapaPokemon.values());
         Utils.renderitzarLlistaNoms(llistaPokemon);
         Utils.amagarEstat();
-    }catch (error: unknown) {
+    } catch (error: unknown) {
         if (error instanceof Error) {
             Utils.mostrarEstat(`Error en carregar els Pokémon: ${error.message}`, 'error');
         } else {
@@ -38,10 +39,10 @@ async function carregarllistaPokemon() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', (): void => {
     const btnShowAll = document.getElementById('btn-show-all') as HTMLButtonElement | null;
     if (btnShowAll) {
-        btnShowAll.addEventListener('click', () => {
+        btnShowAll.addEventListener('click', (): void => {
             carregarllistaPokemon();
         });
     }
@@ -59,6 +60,7 @@ function filtrarPokemon() {
     const items = document.querySelectorAll('#pokemon-list li') as NodeListOf<HTMLLIElement>;
 
     const esNumeric = query !== '' && !isNaN(Number(query));
+
 
     items.forEach((li) => {
         const id = li.dataset.id || '';
