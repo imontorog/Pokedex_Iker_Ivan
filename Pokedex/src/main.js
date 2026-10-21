@@ -50,7 +50,8 @@ function filtrarPokemon() {
     const query = searchInput.value.trim().toLowerCase();
     const items = document.querySelectorAll('#pokemon-list li');
     const esNumeric = query !== '' && !isNaN(Number(query));
-    items.forEach((li) => {
+    for (let i = 0; i <= items.length; i++) {
+        const li = items[i];
         const id = li.dataset.id || '';
         const name = (li.dataset.name || '').toLowerCase();
         if (query === '') {
@@ -72,7 +73,8 @@ function filtrarPokemon() {
                 li.classList.add('hidden');
             }
         }
-    });
+    }
+    ;
 }
 const searchInput = document.getElementById('search-input');
 if (searchInput) {
