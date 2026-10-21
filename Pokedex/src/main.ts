@@ -38,10 +38,10 @@ async function carregarllistaPokemon() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', (): void => {
+document.addEventListener('DOMContentLoaded', () => {
     const btnShowAll = document.getElementById('btn-show-all') as HTMLButtonElement | null;
     if (btnShowAll) {
-        btnShowAll.addEventListener('click', (): void => {
+        btnShowAll.addEventListener('click', () => {
             carregarllistaPokemon();
         });
     }
@@ -51,34 +51,40 @@ document.addEventListener('DOMContentLoaded', (): void => {
 // EXERCICI 2: Cercador en temps real
 // ==========================================================
 
-function filtrarPokemon(): void {
+function filtrarPokemon() {
     const searchInput = document.getElementById('search-input') as HTMLInputElement | null;
     if (!searchInput) return;
 
-    const query: string = searchInput.value.trim().toLowerCase();
-    const totsElsPokemon: Models.BasePokemon[] = Array.from(mapaPokemon.values());
+    const query = searchInput.value.trim().toLowerCase();
+    const items = document.querySelectorAll('#pokemon-list li') as NodeListOf<HTMLLIElement>;
 
-    if (query === '') {
-        Utils.renderitzarLlistaNoms(totsElsPokemon);
-        return;
-    }
+    const esNumeric = query !== '' && !isNaN(Number(query));
 
-    const esNumeric: boolean = !isNaN(Number(query));
+    items.forEach((li) => {
+        const id = li.dataset.id || '';
+        const name = (li.dataset.name || '').toLowerCase();
 
-    const filtrats: Models.BasePokemon[] = totsElsPokemon.filter((pokemon: Models.BasePokemon): boolean => {
-        if (esNumeric) {
-            return pokemon.id === Number(query);
+        if (query === '') {
+            li.classList.remove('hidden');
+        } else if (esNumeric) {
+            if (Number(id) === Number(query)) {
+                li.classList.remove('hidden');
+            } else {
+                li.classList.add('hidden');
+            }
         } else {
-            return pokemon.name.toLowerCase().includes(query);
+            if (name.includes(query)) {
+                li.classList.remove('hidden');
+            } else {
+                li.classList.add('hidden');
+            }
         }
     });
-
-    Utils.renderitzarLlistaNoms(filtrats);
 }
 
 const searchInput = document.getElementById('search-input') as HTMLInputElement | null;
 if (searchInput) {
-    searchInput.addEventListener('input', (): void => {
+    searchInput.addEventListener('input', () => {
         filtrarPokemon();
     });
 }

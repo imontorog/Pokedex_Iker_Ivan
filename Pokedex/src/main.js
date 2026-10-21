@@ -5,6 +5,7 @@ import * as Utils from './utils.js';
 // ==========================================================
 const mapaPokemon = new Map();
 async function carregarllistaPokemon() {
+    Utils.netejarCercador();
     try {
         Utils.mostrarEstat('Carregar la llista Pokémon...', "loading");
         const resposta = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
@@ -41,7 +42,43 @@ document.addEventListener('DOMContentLoaded', () => {
 // ==========================================================
 // EXERCICI 2: Cercador en temps real
 // ==========================================================
-// TODO: Implementa la lògica de l'exercici 2 seguint els requisits
+function filtrarPokemon() {
+    const searchInput = document.getElementById('search-input');
+    if (!searchInput)
+        return;
+    const query = searchInput.value.trim().toLowerCase();
+    const items = document.querySelectorAll('#pokemon-list li');
+    const esNumeric = query !== '' && !isNaN(Number(query));
+    items.forEach((li) => {
+        const id = li.dataset.id || '';
+        const name = (li.dataset.name || '').toLowerCase();
+        if (query === '') {
+            li.classList.remove('hidden');
+        }
+        else if (esNumeric) {
+            if (Number(id) === Number(query)) {
+                li.classList.remove('hidden');
+            }
+            else {
+                li.classList.add('hidden');
+            }
+        }
+        else {
+            if (name.includes(query)) {
+                li.classList.remove('hidden');
+            }
+            else {
+                li.classList.add('hidden');
+            }
+        }
+    });
+}
+const searchInput = document.getElementById('search-input');
+if (searchInput) {
+    searchInput.addEventListener('input', () => {
+        filtrarPokemon();
+    });
+}
 // ==========================================================
 // EXERCICI 3: Detall del Pokémon, cache i crit
 // ==========================================================
