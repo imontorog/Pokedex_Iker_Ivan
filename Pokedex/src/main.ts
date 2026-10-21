@@ -27,7 +27,7 @@ async function carregarllistaPokemon() {
             mapaPokkemon.set(pokemon.id, pokemon);
         });
 
-        const llistaPokemon: Models.BasePokemon[] = Array.from(mapaPokkemon.values());
+        const llistaPokemon = Array.from(mapaPokkemon.values());
         Utils.renderitzarLlistaNoms(llistaPokemon);
         Utils.amagarEstat();
     }catch (error: unknown) {
