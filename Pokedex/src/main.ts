@@ -1,5 +1,6 @@
 import * as Models from './models.js';
 import * as Utils from './utils.js';
+import {BasePokemon, IPokeApiListItem} from "./models.js";
 
 // ==========================================================
 // EXERCICI 1: Llistar els 151 Pokémon
@@ -12,7 +13,7 @@ async function carregarllistaPokemon(): Promise<void> {
     try {
         Utils.mostrarEstat('Carregant la llista de Pokémon...', 'loading');
 
-        const resposta = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
+        const resposta: Response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
         if (!resposta.ok) {
             throw new Error(`Error HTTP: ${resposta.status}`);
         }
@@ -21,13 +22,13 @@ async function carregarllistaPokemon(): Promise<void> {
 
         mapaPokemon.clear();
 
-        for (let i = 0; i < dades.results.length; i++) {
-            const item = dades.results[i];
+        for (let i: number = 0; i < dades.results.length; i++) {
+            const item: IPokeApiListItem = dades.results[i];
             const pokemon = new Models.BasePokemon(item);
             mapaPokemon.set(pokemon.id, pokemon);
         }
 
-        const llistaPokemon = Array.from(mapaPokemon.values());
+        const llistaPokemon: BasePokemon[] = Array.from(mapaPokemon.values());
         Utils.renderitzarLlistaNoms(llistaPokemon);
         Utils.amagarEstat();
     } catch (error: unknown) {
@@ -52,17 +53,17 @@ document.addEventListener('DOMContentLoaded', (): void => {
 // EXERCICI 2: Cercador en temps real
 // ==========================================================
 
-function filtrarPokemon() {
+function filtrarPokemon(): void {
     const searchInput = document.getElementById('search-input') as HTMLInputElement | null;
     if (!searchInput) return;
 
-    const query = searchInput.value.trim().toLowerCase();
+    const query: string = searchInput.value.trim().toLowerCase();
     const items = document.querySelectorAll('#pokemon-list li') as NodeListOf<HTMLLIElement>;
 
-    const esNumeric = query !== '' && !isNaN(Number(query));
+    const esNumeric: boolean = query !== '' && !isNaN(Number(query));
 
 
-    for(let i = 0; i <= items.length; i++) {
+    for(let i: number = 0; i <= items.length; i++) {
         const li: HTMLLIElement = items[i];
         const id: string = li.dataset.id || '';
         const name: string = (li.dataset.name || '').toLowerCase();
@@ -87,7 +88,7 @@ function filtrarPokemon() {
 
 const searchInput = document.getElementById('search-input') as HTMLInputElement | null;
 if (searchInput) {
-    searchInput.addEventListener('input', () => {
+    searchInput.addEventListener('input', (): void => {
         filtrarPokemon();
     });
 }

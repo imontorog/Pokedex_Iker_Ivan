@@ -1,4 +1,5 @@
 import * as Models from "./models.js";
+import {BasePokemon} from "./models.js";
 
 // ==========================================================
 // PART A: FUNCIONS JA IMPLEMENTADES (no cal modificar-les)
@@ -9,7 +10,7 @@ import * as Models from "./models.js";
  * Usa-la com a MODEL per escriure les teves pròpies funcions.
  */
 export function mostrarEstat(missatge: string, tipus: Models.EstatTipus): void {
-    const statusContainer = document.getElementById("status-message");
+    const statusContainer: HTMLElement | null = document.getElementById("status-message");
     if (!statusContainer) return;
 
     statusContainer.textContent = missatge;
@@ -20,7 +21,7 @@ export function mostrarEstat(missatge: string, tipus: Models.EstatTipus): void {
  * Amaga el missatge d'estat.
  */
 export function amagarEstat(): void {
-    const statusContainer = document.getElementById("status-message");
+    const statusContainer: HTMLElement | null = document.getElementById("status-message");
     if (!statusContainer) return;
 
     statusContainer.textContent = "";
@@ -36,18 +37,18 @@ export function netejarCercador(): void {
         searchInput.value = "";
     }
 
-    const items = document.querySelectorAll<HTMLLIElement>("#pokemon-list li");
-    items.forEach((li) => li.classList.remove("hidden"));
+    const items: NodeListOf<HTMLElement> = document.querySelectorAll<HTMLLIElement>("#pokemon-list li");
+    items.forEach((li: HTMLElement): void => li.classList.remove("hidden"));
 }
 
 /**
  * Marca visualment l'element seleccionat a la llista.
  */
 export function marcarItemActiu(target: HTMLElement): void {
-    const listItem = target.closest("li");
+    const listItem: HTMLLIElement | null = target.closest("li");
     if (!listItem) return;
 
-    document.querySelectorAll("#pokemon-list li").forEach((li) => {
+    document.querySelectorAll("#pokemon-list li").forEach((li: Element): void => {
         li.classList.remove("active");
     });
 
@@ -58,7 +59,7 @@ export function marcarItemActiu(target: HTMLElement): void {
  * Torna el panell de detall al seu estat inicial (placeholder).
  */
 export function netejarDetallCard(): void {
-    const container = document.getElementById("pokemon-detail");
+    const container: HTMLElement | null = document.getElementById("pokemon-detail");
     if (!container) return;
 
     container.innerHTML = `
@@ -71,7 +72,7 @@ export function netejarDetallCard(): void {
  */
 export function reproduirCrit(soundUrl: string): void {
     const audio = new Audio(soundUrl);
-    audio.play().catch(() => {
+    audio.play().catch((): void => {
         mostrarEstat("No s'ha pogut reproduir el crit.", "error");
     });
 }
@@ -101,8 +102,8 @@ export function renderitzarLlistaNoms(llista: Models.BasePokemon[]): void {
 
     container.innerHTML = '';
 
-    for (let i = 0; i < llista.length; i++) {
-        const pokemon = llista[i];
+    for (let i: number = 0; i < llista.length; i++) {
+        const pokemon: BasePokemon = llista[i];
         const li = document.createElement('li') as HTMLLIElement;
 
         li.dataset.id = pokemon.id.toString();
