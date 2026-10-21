@@ -115,6 +115,7 @@ export function renderitzarLlistaNoms(llista: Models.BasePokemon[]): void {
     }
 }
 
+
 /**
  * EXERCICI 3
  * Renderitza la targeta de detall dins de <div id="pokemon-detail">.
