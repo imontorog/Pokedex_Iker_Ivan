@@ -212,22 +212,39 @@ export const POKEMON_TYPES: Record<PokemonTypeName, PokemonType> = {
  *   get types: retorna un array d'objectes PokemonType
  *   get stats: retorna un array de type Stat
  */
-export class DetailedPokemon extends BasePokemon{
 
-    private _weight: number;
-    private _sprites: string;
-    private _cries: string | null;
+export class DetailedPokemon extends BasePokemon {
+    private _weightKg: number;
+    private _imageUrl: string;
+    private _cryUrl: string | null;
     private _types: PokemonType[];
     private _stats: Stat[];
-    constructor(data: IPokeApiDetail,url:string) {
-        super({name:data.name,url:url});
-        this._weight = data.weight;
-        this._sprites = data.sprites.front_default || "";
-        this._cries = data.cries?.latest || null;
+    constructor(data: IPokeApiDetail, url: string) {
+        super({ name: data.name, url: url });
+        this._weightKg = data.weight / 10;
+        this._imageUrl = data.sprites.front_default || "";
+        this._cryUrl = data.cries?.latest || null;
         this._types = data.types
-            .map((t) => POKEMON_TYPES[t.type.name])
+            .map((t) => POKEMON_TYPES[t.type.name as PokemonTypeName])
             .filter((type): type is PokemonType => type !== undefined);
-        this._stats = data.stats.map((s): Stat => [s.stat.name, s.base_stat]);
+        this._stats = data.stats.map(
+            (s): Stat => [s.stat.name, s.base_stat]
+        );
+    }
+    get weightKg(): number {
+        return this._weightKg;
+    }
+    get imageUrl(): string {
+        return this._imageUrl;
+    }
+    get cryUrl(): string | null {
+        return this._cryUrl;
+    }
+    get types(): PokemonType[] {
+        return this._types;
+    }
+    get stats(): Stat[] {
+        return this._stats;
     }
 }
 
