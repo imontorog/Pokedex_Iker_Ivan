@@ -7,6 +7,7 @@ import {BasePokemon, IPokeApiListItem} from "./models.js";
 // ==========================================================
 
 const mapaPokemon = new Map<number, Models.BasePokemon>();
+const cachePokemon = new Map<number, Models.DetailedPokemon>();
 
 async function carregarllistaPokemon(): Promise<void> {
     Utils.netejarCercador();
@@ -98,7 +99,52 @@ if (searchInput) {
 // ==========================================================
 // EXERCICI 3: Detall del Pokémon, cache i crit
 // ==========================================================
-// TODO: Implementa la lògica de l'exercici 3 seguint els requisits
+async function carregarDetallPokemon(id: number, url: string): Promise<void> {
+    if (cachePokemon.has(id)) {
+        const pokemonCached = cachePokemon.get(id)!;
+        Utils.renderitzarDetallCard(pokemonCached);
+        return;
+    }
+
+    try {
+        Utils.mostrarEstat("CARREGANT EL DETALL DEL POKÉMON...", "loading");
+
+        const resposta = await fetch(url);
+        if (!resposta.ok) {
+            throw new Error(`Error HTTP: ${resposta.status}`);
+        }
+
+        const dadesDetall = (await resposta.json()) as Models.IPokeApiDetail;
+
+        const detailedPokemon = new Models.DetailedPokemon(dadesDetall, url);
+        cachePokemon.set(id, detailedPokemon);
+
+        Utils.renderitzarDetallCard(detailedPokemon);
+        Utils.amagarEstat();
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            Utils.mostrarEstat(`Error en carregar el detall: ${error.message}`, "error");
+        } else {
+            Utils.mostrarEstat("Error desconegut en carregar el detall.", "error");
+        }
+    }
+}
+
+const pokemonList = document.getElementById("pokemon-list");
+if(pokemonList){
+    pokemonList.addEventListener("click", (event: Event): void => {
+        const target = event.target as HTMLElement;
+        const li = target.closest("li");
+
+        if(li && li.dataset && li.dataset.url){
+            const id = Number(li.dataset.id);
+            const url = li.dataset.url;
+
+            Utils.marcarItemActiu(id);
+            carregarDetallPokemon(id, url);
+        }
+    });
+}
 
 
 
