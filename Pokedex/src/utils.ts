@@ -154,7 +154,6 @@ export function renderitzarDetallCard(pokemon: Models.DetailedPokemon): void {
     ImagenPokemon.alt = pokemon.name;
     const PesoPokemon = document.createElement("p");
     PesoPokemon.innerHTML = `<strong>Pes:</strong> ${pokemon.weightKg} kg`;
-
     const TiposPokemon = document.createElement("p");
     TiposPokemon.innerHTML = `<strong>Tipus:</strong> ${pokemon.types.map(t => t.label).join(", ")}`;
 
