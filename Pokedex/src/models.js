@@ -45,7 +45,6 @@ export class PokemonType {
     name;
     icon;
     color;
-    // 2. Rebre els valors i fer l'assignació manual
     constructor(id, name, icon, color) {
         this.id = id;
         this.name = name;
