@@ -110,7 +110,7 @@ export function renderitzarLlistaNoms(llista: Models.BasePokemon[]): void {
         li.dataset.name = pokemon.name;
         li.dataset.url = pokemon.url;
 
-        li.textContent = `${pokemon.formattedId} - ${pokemon.displayName}`;
+        li.textContent = `${pokemon.formattedId} - ${pokemon.name}`;
 
         container.appendChild(li);
     }
@@ -141,6 +141,66 @@ export function renderitzarLlistaNoms(llista: Models.BasePokemon[]): void {
  */
 
 // TODO: Implementa la lògica de l'exercici 3 seguint els requisits
+
+export function renderitzarDetallCard(pokemon: Models.DetailedPokemon): void {
+    const DetallesPokemon = document.getElementById("pokemon-detail") as HTMLDivElement;
+    DetallesPokemon.innerHTML = "";
+    const card = document.createElement("div");
+    card.className = "detail-card";
+    const TituloPokemon = document.createElement("h3");
+    TituloPokemon.textContent = `${pokemon.formattedId} ${pokemon.name}`;
+    const ImagenPokemon = document.createElement("img");
+    ImagenPokemon.src = pokemon.imageUrl;
+    ImagenPokemon.alt = pokemon.name;
+    const PesoPokemon = document.createElement("p");
+    PesoPokemon.innerHTML = `<strong>Pes:</strong> ${pokemon.weightKg} kg`;
+
+    const TiposPokemon = document.createElement("p");
+    TiposPokemon.innerHTML = `<strong>Tipus:</strong> ${pokemon.types.map(t => t.label).join(", ")}`;
+
+    const EstadisticasPokemon = document.createElement("div");
+    EstadisticasPokemon.className = "stats-grid";
+    pokemon.stats.forEach(([name, value]) => {
+        const Estadistica = document.createElement("div");
+        Estadistica.className = "stat-box";
+        const NombreEstadistica = document.createElement("span");
+        NombreEstadistica.textContent = name.toUpperCase();
+        const ValorEstadistica = document.createElement("strong");
+        ValorEstadistica.textContent = value.toString();
+        Estadistica.append(
+            NombreEstadistica,
+            ValorEstadistica
+        );
+        EstadisticasPokemon.append(Estadistica);
+    });
+
+    if (pokemon.cryUrl !== null) {
+        const SonidoPokemon = document.createElement("button");
+        SonidoPokemon.id = "btn-play-cry";
+        SonidoPokemon.className = "btn-cry";
+        SonidoPokemon.textContent = "🔊 Escolta el crit";
+        SonidoPokemon.addEventListener("click", () => {
+            reproduirCrit(pokemon.cryUrl!);
+        });
+        card.append(
+            TituloPokemon,
+            ImagenPokemon,
+            SonidoPokemon,
+            PesoPokemon,
+            TiposPokemon,
+            EstadisticasPokemon
+        );
+    } else {
+        card.append(
+            TituloPokemon,
+            ImagenPokemon,
+            PesoPokemon,
+            TiposPokemon,
+            EstadisticasPokemon
+        );
+    }
+    DetallesPokemon.append(card);
+}
 
 
 /**
