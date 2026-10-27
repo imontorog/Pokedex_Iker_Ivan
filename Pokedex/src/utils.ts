@@ -44,7 +44,7 @@ export function netejarCercador(): void {
 /**
  * Marca visualment l'element seleccionat a la llista.
  */
-export function marcarItemActiu(target: HTMLElement): void {
+export function marcarItemActiu(target: number): void {
     const listItem: HTMLLIElement | null = target.closest("li");
     if (!listItem) return;
 
