@@ -99,7 +99,6 @@ export class PokemonType {
     public readonly icon: string;
     public readonly color: string;
 
-    // 2. Rebre els valors i fer l'assignació manual
     constructor(id: string, name: string, icon: string, color: string) {
         this.id = id;
         this.name = name;
