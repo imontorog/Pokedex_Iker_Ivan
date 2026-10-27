@@ -211,6 +211,24 @@ export const POKEMON_TYPES: Record<PokemonTypeName, PokemonType> = {
  *   get types: retorna un array d'objectes PokemonType
  *   get stats: retorna un array de type Stat
  */
+export class DetailedPokemon extends BasePokemon{
+
+    private _weight: number;
+    private _sprites: string;
+    private _cries: string | null;
+    private _types: PokemonType[];
+    private _stats: Stat[];
+    constructor(data: IPokeApiDetail,url:string) {
+        super({name:data.name,url:url});
+        this._weight = data.weight;
+        this._sprites = data.sprites.front_default || "";
+        this._cries = data.cries?.latest || null;
+        this._types = data.types
+            .map((t) => POKEMON_TYPES[t.type.name])
+            .filter((type): type is PokemonType => type !== undefined);
+        this._stats = data.stats.map((s): Stat => [s.stat.name, s.base_stat]);
+    }
+}
 
 
 
