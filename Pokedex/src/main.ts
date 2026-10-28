@@ -140,7 +140,7 @@ if (pokemonList) {
             const id = Number(li.dataset.id);
             const url = li.dataset.url;
 
-            Utils.marcarItemActiu(id);
+            Utils.marcarItemActiu(li);
             carregarDetallPokemon(id, url);
         }
     });
