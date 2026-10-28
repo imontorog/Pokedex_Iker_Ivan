@@ -146,13 +146,43 @@ if (pokemonList) {
     });
 }
 
-
-
 // ==========================================================
 // EXERCICI 4: Botons de filtre per tipus
 // ==========================================================
 // TODO: Implementa la lògica de l'exercici 4 seguint els requisits
+document.addEventListener('DOMContentLoaded', (): void => {
+    Utils.generarBotonsTipus();
 
+    const btnShowAll = document.getElementById('btn-show-all') as HTMLButtonElement | null;
+    if (btnShowAll) {
+        btnShowAll.addEventListener('click', (): void => {
+            carregarllistaPokemon();
+        });
+    }
+
+    const searchInput = document.getElementById('search-input') as HTMLInputElement | null;
+    if (searchInput) {
+        searchInput.addEventListener('input', (): void => {
+            filtrarPokemon();
+        });
+    }
+
+    const pokemonList = document.getElementById('pokemon-list');
+    if (pokemonList) {
+        pokemonList.addEventListener('click', (event: Event): void => {
+            const target = event.target as HTMLElement;
+            const li = target.closest('li');
+
+            if (li && li.dataset.id && li.dataset.url) {
+                const id = Number(li.dataset.id);
+                const url = li.dataset.url;
+
+                Utils.marcarItemActiu(li);
+                carregarDetallPokemon(id, url);
+            }
+        });
+    }
+});
 
 
 // ==========================================================
