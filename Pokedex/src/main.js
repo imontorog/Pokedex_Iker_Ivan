@@ -162,4 +162,60 @@ document.addEventListener('DOMContentLoaded', () => {
 // EXERCICI 5: Filtrar la llista per tipus
 // ==========================================================
 // TODO: Implementa la lògica de l'exercici 5 seguint els requisits
+async function carregarPokemonPerTipus(tipus) {
+    Utils.netejarCercador();
+    Utils.netejarDetallCard();
+    try {
+        Utils.mostrarEstat(`Carregant Pokémon del tipus ${tipus}...`, 'loading');
+        const resposta = await fetch(`https://pokeapi.co/api/v2/type/${tipus}`);
+        if (!resposta.ok) {
+            throw new Error(`Error HTTP: ${resposta.status}`);
+        }
+        const dades = (await resposta.json());
+        mapaPokemon.clear();
+        for (let i = 0; i < dades.pokemon.length; i++) {
+            const entry = dades.pokemon[i];
+            const pokemon = new Models.BasePokemon(entry.pokemon);
+            if (pokemon.id <= 151) {
+                mapaPokemon.set(pokemon.id, pokemon);
+            }
+        }
+        const llistaPokemon = Array.from(mapaPokemon.values());
+        Utils.renderitzarLlistaNoms(llistaPokemon);
+        Utils.amagarEstat();
+    }
+    catch (error) {
+        if (error instanceof Error) {
+            Utils.mostrarEstat(`Error en carregar el tipus: ${error.message}`, 'error');
+        }
+        else {
+            Utils.mostrarEstat('Error desconegut en carregar el tipus.', 'error');
+        }
+    }
+}
+const btnShowAll = document.getElementById('btn-show-all');
+if (btnShowAll) {
+    btnShowAll.addEventListener('click', () => {
+        const activeButtons = document.querySelectorAll('#type-filter-container .btn-type.active');
+        for (let i = 0; i < activeButtons.length; i++) {
+            activeButtons[i].classList.remove('active');
+        }
+        carregarllistaPokemon();
+    });
+}
+const typeFilterContainer = document.getElementById('type-filter-container');
+if (typeFilterContainer) {
+    typeFilterContainer.addEventListener('click', (event) => {
+        const target = event.target;
+        const button = target.closest('button.btn-type');
+        if (button && button.dataset.type) {
+            const allButtons = typeFilterContainer.querySelectorAll('.btn-type');
+            for (let i = 0; i < allButtons.length; i++) {
+                allButtons[i].classList.remove('active');
+            }
+            button.classList.add('active');
+            carregarPokemonPerTipus(button.dataset.type);
+        }
+    });
+}
 //# sourceMappingURL=main.js.map
