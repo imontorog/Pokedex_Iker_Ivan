@@ -135,4 +135,36 @@ export const POKEMON_TYPES = {
  *   get types: retorna un array d'objectes PokemonType
  *   get stats: retorna un array de type Stat
  */
+export class DetailedPokemon extends BasePokemon {
+    _weightKg;
+    _imageUrl;
+    _cryUrl;
+    _types;
+    _stats;
+    constructor(data, url) {
+        super({ name: data.name, url: url });
+        this._weightKg = data.weight / 10;
+        this._imageUrl = data.sprites.front_default || "";
+        this._cryUrl = data.cries?.latest || null;
+        this._types = data.types
+            .map((t) => POKEMON_TYPES[t.type.name])
+            .filter((type) => type !== undefined);
+        this._stats = data.stats.map((s) => [s.stat.name, s.base_stat]);
+    }
+    get weightKg() {
+        return this._weightKg;
+    }
+    get imageUrl() {
+        return this._imageUrl;
+    }
+    get cryUrl() {
+        return this._cryUrl;
+    }
+    get types() {
+        return this._types;
+    }
+    get stats() {
+        return this._stats;
+    }
+}
 //# sourceMappingURL=models.js.map

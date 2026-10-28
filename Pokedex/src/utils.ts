@@ -44,13 +44,14 @@ export function netejarCercador(): void {
 /**
  * Marca visualment l'element seleccionat a la llista.
  */
-export function marcarItemActiu(target: number): void {
-    const listItem: HTMLLIElement | null = target.closest("li");
+export function marcarItemActiu(target: HTMLElement): void {
+    const listItem = target.closest("li");
     if (!listItem) return;
 
-    document.querySelectorAll("#pokemon-list li").forEach((li: Element): void => {
-        li.classList.remove("active");
-    });
+    const items = document.querySelectorAll("#pokemon-list li") as NodeListOf<HTMLLIElement>;
+    for (let i = 0; i < items.length; i++) {
+        items[i].classList.remove("active");
+    }
 
     listItem.classList.add("active");
 }

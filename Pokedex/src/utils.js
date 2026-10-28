@@ -40,9 +40,10 @@ export function marcarItemActiu(target) {
     const listItem = target.closest("li");
     if (!listItem)
         return;
-    document.querySelectorAll("#pokemon-list li").forEach((li) => {
-        li.classList.remove("active");
-    });
+    const items = document.querySelectorAll("#pokemon-list li");
+    for (let i = 0; i < items.length; i++) {
+        items[i].classList.remove("active");
+    }
     listItem.classList.add("active");
 }
 /**

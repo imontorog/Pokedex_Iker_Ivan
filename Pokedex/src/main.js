@@ -93,7 +93,7 @@ async function carregarDetallPokemon(id, url) {
         return;
     }
     try {
-        Utils.mostrarEstat("CARREGANT EL DETALL DEL POKÉMON...", "loading");
+        Utils.mostrarEstat('CARREGANT EL DETALL DEL POKÉMON...', 'loading');
         const resposta = await fetch(url);
         if (!resposta.ok) {
             throw new Error(`Error HTTP: ${resposta.status}`);
@@ -106,19 +106,19 @@ async function carregarDetallPokemon(id, url) {
     }
     catch (error) {
         if (error instanceof Error) {
-            Utils.mostrarEstat(`Error en carregar el detall: ${error.message}`, "error");
+            Utils.mostrarEstat(`Error en carregar el detall: ${error.message}`, 'error');
         }
         else {
-            Utils.mostrarEstat("Error desconegut en carregar el detall.", "error");
+            Utils.mostrarEstat('Error desconegut en carregar el detall.', 'error');
         }
     }
 }
-const pokemonList = document.getElementById("pokemon-list");
+const pokemonList = document.getElementById('pokemon-list');
 if (pokemonList) {
-    pokemonList.addEventListener("click", (event) => {
+    pokemonList.addEventListener('click', (event) => {
         const target = event.target;
-        const li = target.closest("li");
-        if (li && li.dataset && li.dataset.url) {
+        const li = target.closest('li');
+        if (li && li.dataset.id && li.dataset.url) {
             const id = Number(li.dataset.id);
             const url = li.dataset.url;
             Utils.marcarItemActiu(id);
